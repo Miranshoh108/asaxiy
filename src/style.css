@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+  text-decoration: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container1 {
+  width: 85%;
+  margin: 0 auto;
+}
+
+@media (min-width: 1450px) {
+  .container1 {
+    width: 1350px;
+    margin: 0 auto;
+  }
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper {
+  margin-top: 20px;
+  width: 1400px;
+  height: 172px;
+}

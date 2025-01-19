@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Like</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./output.css" />
+  </head>
+  <body>
+    <header class="py-5">
+      <nav class="w-[90%] m-auto flex items-center justify-between">
+        <a href="./index.html"><img src="../img/logo.png" alt="" /></a>
+        <nav class="flex items-center gap-6">
+          <button
+            class="flex items-center gap-[10px] justify-center w-[132px] h-[37px] bg-[#006bff] rounded-[10px]"
+          >
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+            <h1
+              class="font-normal text-sm leading-[150%] text-center text-white"
+            >
+              Категории
+            </h1>
+          </button>
+          <div class="flex items-center"> 
+            <input
+              type="search"
+              placeholder="Поиск..."
+              class="outline-none  px-[10px] w-[399px] h-10 bg-white rounded-[10px_0_0_10px] border-2 border-solid border-[#006bff]"
+            />
+            <button
+              class="btn w-[81px] h-10 bg-[#006bff] font-normal text-base leading-[150%] text-center text-white rounded-[0_10px_10px_0]"
+            >
+              Искать
+            </button>
+          </div>
+        </nav>
+        <nav class="flex items-center gap-[40px]">
+          <i class="bx bx-user text-3xl cursor-pointer"></i>
+          <a class="relative" href="./like.html"
+            ><i class="bx text-3xl bx-heart"></i>
+            <p
+              class="counter_like bg-red-700 absolute w-[25px] h-[25px] rounded-full text-[12px] text-white flex items-center justify-center top-[-10px] right-[-14px]"
+            >
+              0
+            </p>
+          </a>
+          <a href="./shop.html" class="relative">
+            <i class="bx bx-shopping-bag text-3xl cursor-pointer"></i>
+            <p
+              class="counter bg-red-700 absolute w-[25px] h-[25px] rounded-full text-[12px] text-white flex items-center justify-center top-[-10px] right-[-14px]"
+            >
+              0
+            </p>
+          </a>
+        </nav>
+      </nav>
+    </header>
+    <section class="flex items-center justify-center flex-col no-data">
+      <img
+        class="mt-[30px] mb-[40px] w-[250px]"
+        src="https://png.pngtree.com/png-clipart/20210314/original/pngtree-icon-like-png-image_6090608.jpg"
+        alt=""
+      />
+      <h2 class="text-3xl my-4 font-medium">Hozircha like bosmagansiz</h2>
+
+      <a
+        class="bg-slate-300 w-[250px] mt-8 h-[45px] flex items-center justify-center rounded-md"
+        href="./index.html"
+      >
+        Bosh sahifa
+      </a>
+    </section>
+    <section class="carts2 grid grid-cols-4 gap-6 w-[90%] m-auto"></section>
+    <script type="module" src="../js/like.js"></script>
+  </body>
+</html>
