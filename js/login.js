@@ -3,7 +3,7 @@ let login_form = document.getElementById("login_form");
 const request = useFetch();
 login_form.addEventListener("submit", (e) => {
   e.preventDefault();
-  request({ url: "telgram" }).then((data) => {
+  request({ url: "telegram" }).then((data) => {
     checkData(
       {
         username: login_form.username.value,

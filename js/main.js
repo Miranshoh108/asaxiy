@@ -3,101 +3,89 @@ import { laodingFunc } from "./utils/loading.js";
 import { addUIData } from "./utils/ui.js";
 
 const carts = document.querySelector(".carts");
+const searchInput = document.querySelector("input[type='search']");
+const searchButton = document.querySelector(".btn");
 let counter = document.querySelector(".counter");
 let counter_like = document.querySelector(".counter_like");
+const loading = document.querySelector(".loading");
+
 const request = useFetch();
 let cart = JSON.parse(localStorage.getItem("carts")) || [];
-const loading = document.querySelector(".loading");
 let like = JSON.parse(localStorage.getItem("like")) || [];
-let counterLength = JSON.parse(localStorage.getItem("carts"))?.length || 0;
-let counterLikeLength = JSON.parse(localStorage.getItem("like"))?.length || 0;
 
-counter.innerHTML = counterLength;
-counter_like.innerHTML = counterLikeLength;
+counter.innerHTML = cart.length;
+counter_like.innerHTML = like.length;
 
 const getDataFetch = async () => {
-  laodingFunc(true, loading); 
+  laodingFunc(true, loading);
   let response = await request({ url: "asaxiy" });
   laodingFunc(false, loading);
   return response;
 };
 
-getDataFetch().then((data) => getData(data));
-
 function getData(data) {
+  carts.innerHTML = "";
   data.forEach((value) => {
     addUIData(value, carts);
   });
-  let buttons = document.querySelectorAll(".btn_shop");
-  buttons.forEach((value, idx) => {
-    value.addEventListener("click", (e) => {
-      addToCart(data[idx]);
-    });
+  attachEventListeners(data);
+}
+
+function searchProducts(data) {
+  const query = searchInput.value.toLowerCase();
+  const filteredData = data.filter((product) =>
+    product.title.toLowerCase().includes(query)
+  );
+  getData(filteredData);
+}
+
+function attachEventListeners(data) {
+  document.querySelectorAll(".btn_shop").forEach((btn, idx) => {
+    btn.addEventListener("click", () => addToCart(data[idx]));
   });
 
-  attachLikeListeners(data);
+  document.querySelectorAll(".like").forEach((el) => {
+    el.addEventListener("click", () => {
+      const item = data.find((d) => d.id === el.id);
+      if (item) addToLike(item);
+    });
+  });
 }
 
 function addToCart(data) {
-  if (cart.find((value) => value.id === data.id)) {
-    cart = cart.map((value) => {
-      if (value.id === data.id) {
-        return {
-          ...value,
-          count: (value.count += 1),
-          userPrice: value.count * value.price,
-        };
-      }
-      return value;
-    });
-    localStorage.setItem("carts", JSON.stringify(cart));
-    return;
+  let existing = cart.find((value) => value.id === data.id);
+  if (existing) {
+    existing.count++;
+    existing.userPrice = existing.count * existing.price;
+  } else {
+    cart.push({ ...data, count: 1, userPrice: data.price });
   }
-  cart = [...cart, { ...data, count: 1, userPrice: data.price }];
   localStorage.setItem("carts", JSON.stringify(cart));
-  counterLength = cart.length;
-  counter.innerHTML = counterLength;
-}
-
-function attachLikeListeners(data) {
-  let like_icons = document.querySelectorAll(".like");
-  like_icons.forEach((element) => {
-    element.addEventListener("click", (e) => {
-      const id = parseInt(e.target.getAttribute("id"));
-      const item = data.find((d) => d.id === String(id));
-      if (item) {
-        addToLike(item);
-      }
-    });
-  });
+  counter.innerHTML = cart.length;
 }
 
 function addToLike(value) {
   if (!like.find((item) => item.id === value.id)) {
-    like = [...like, value];
+    like.push(value);
     localStorage.setItem("like", JSON.stringify(like));
-    counterLikeLength = like.length;
-    counter_like.innerHTML = counterLikeLength;
+    counter_like.innerHTML = like.length;
     window.location.reload();
   }
 }
 
 carts.addEventListener("click", (e) => {
-  let id = e.target.id;
   if (e.target.classList.contains("dislike")) {
-    like = like.filter((value) => value.id !== id);
+    like = like.filter((value) => value.id !== e.target.id);
     localStorage.setItem("like", JSON.stringify(like));
-    counterLikeLength = like.length;
-    counter_like.innerHTML = counterLikeLength;
-    upDatedisLikeIcons();
+    counter_like.innerHTML = like.length;
+    updateLikeIcons();
   }
 });
 
-function upDatedisLikeIcons() {
+function updateLikeIcons() {
   const likeItems = JSON.parse(localStorage.getItem("like")) || [];
   document.querySelectorAll(".like, .dislike").forEach((icon) => {
-    const id = parseInt(icon.getAttribute("id"));
-    const isLiked = likeItems.some((item) => item.id === String(id));
+    const isLiked = likeItems.some((item) => item.id === icon.id);
     icon.classList.toggle("bxs-heart", isLiked);
     icon.classList.toggle("bx-heart", !isLiked);
     icon.classList.toggle("text-[red]", isLiked);
@@ -105,3 +93,19 @@ function upDatedisLikeIcons() {
     icon.classList.toggle("dislike", isLiked);
   });
 }
+
+searchButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let data = await getDataFetch();
+  searchProducts(data);
+});
+
+searchInput.addEventListener("keypress", async (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    let data = await getDataFetch();
+    searchProducts(data);
+  }
+});
+
+getDataFetch().then((data) => getData(data));
