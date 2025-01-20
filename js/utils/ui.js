@@ -3,7 +3,8 @@ function addUIData(value, carts) {
   const likeItems = JSON.parse(localStorage.getItem("like")) || [];
   const isLiked = likeItems.some((item) => item.id === value.id);
   card.innerHTML = `
-        <div class="relative">
+       <div class="card w-[300px] h-[450px] ">
+        <div class="relative flex justify-start items-start">
               <img
                 class="w-full"
                 src=${value.img}
@@ -15,8 +16,8 @@ function addUIData(value, carts) {
                isLiked ? "text-[red]" : "text-white"
              } absolute top-1 left-4  ${!isLiked ? "like" : "dislike"}"></i>`}
             </div>
-            <div>
-              <h2 class="text-[14px]">${value.title?.slice(0, 60) + "..."}</h2>
+            <div class="p-4 ">
+              <h2 class="font-bold text-[24px]">${value.title?.slice(0, 60) + "..."}</h2>
               <p><i class="bx bxs-star text-[gold]"></i>${value.rate}</p>
               <h3>${value.month
                 ?.toLocaleString("uz-UZ")
@@ -27,6 +28,7 @@ function addUIData(value, carts) {
                   ?.replace(/,/g, " ")} so'm</h2>
                <button class="btn_shop"><i class="bx bx-shopping-bag text-2xl"></i></button>
               </div>
+            </div>
             </div>
         `;
   carts.append(card);

@@ -1,6 +1,7 @@
 import { useFetch } from "./utils/request.js";
 import { laodingFunc } from "./utils/loading.js";
 import { addUIData } from "./utils/ui.js";
+
 const carts = document.querySelector(".carts");
 let counter = document.querySelector(".counter");
 let counter_like = document.querySelector(".counter_like");
@@ -13,13 +14,16 @@ let counterLikeLength = JSON.parse(localStorage.getItem("like"))?.length || 0;
 
 counter.innerHTML = counterLength;
 counter_like.innerHTML = counterLikeLength;
+
 const getDataFetch = async () => {
-  laodingFunc(true, loading);
+  laodingFunc(true, loading); 
   let response = await request({ url: "asaxiy" });
   laodingFunc(false, loading);
   return response;
 };
+
 getDataFetch().then((data) => getData(data));
+
 function getData(data) {
   data.forEach((value) => {
     addUIData(value, carts);
@@ -33,6 +37,7 @@ function getData(data) {
 
   attachLikeListeners(data);
 }
+
 function addToCart(data) {
   if (cart.find((value) => value.id === data.id)) {
     cart = cart.map((value) => {
@@ -53,6 +58,7 @@ function addToCart(data) {
   counterLength = cart.length;
   counter.innerHTML = counterLength;
 }
+
 function attachLikeListeners(data) {
   let like_icons = document.querySelectorAll(".like");
   like_icons.forEach((element) => {
@@ -67,12 +73,15 @@ function attachLikeListeners(data) {
 }
 
 function addToLike(value) {
-  like = [...like, value];
-  localStorage.setItem("like", JSON.stringify(like));
-  counterLikeLength = like.length;
-  counter_like.innerHTML = counterLikeLength;
-  window.location.reload();
+  if (!like.find((item) => item.id === value.id)) {
+    like = [...like, value];
+    localStorage.setItem("like", JSON.stringify(like));
+    counterLikeLength = like.length;
+    counter_like.innerHTML = counterLikeLength;
+    window.location.reload();
+  }
 }
+
 carts.addEventListener("click", (e) => {
   let id = e.target.id;
   if (e.target.classList.contains("dislike")) {
@@ -96,15 +105,3 @@ function upDatedisLikeIcons() {
     icon.classList.toggle("dislike", isLiked);
   });
 }
-
-
-
-
-
-
-
-
-
-
-
- 
