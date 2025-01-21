@@ -85,7 +85,7 @@ post_product.addEventListener("submit", (e) => {
 });
 
 function postData(data) {
-  request({ url: "n17", method: "POST", data }).then(() =>
+  request({ url: "asaxiy", method: "POST", data }).then(() =>
     alert("Mahsulot qoshildi")
   );
 }
@@ -103,7 +103,7 @@ getId.addEventListener("submit", (e) => {
 
 function getOneProduct(id) {
   try {
-    request({ url: `n17/${id}` }).then((data) => {
+    request({ url: `asaxiy/${id}` }).then((data) => {
       deleteBtn.style.display = "block";
       deleteProductItem(data);
     });
@@ -120,7 +120,7 @@ function deleteProductItem(data) {
 function deleteProduct(id) {
   let sucsses = confirm("Ochirishingizga ishonchingiz komilmi ?");
   if (sucsses) {
-    request({ url: `n17/${id}`, method: "DELETE" }).then(() => {
+    request({ url: `asaxiy/${id}`, method: "DELETE" }).then(() => {
       alert("Malumot ochirildi !");
       carts.innerHTML = "";
       deleteBtn.style.display = "none";
@@ -145,7 +145,7 @@ getIdEdit.addEventListener("submit", (e) => {
 });
 function getOneProduct2(id) {
   try {
-    request({ url: `n17/${id}` }).then((data) => {
+    request({ url: `asaxiy/${id}` }).then((data) => {
       addUIData(data, carts2);
       post_product_edit.style.display = "flex";
       post_product_edit.addEventListener("submit", (e) => {
@@ -177,7 +177,7 @@ function getOneProduct2(id) {
 }
 
 function editProduct(id, newData) {
-  request({ url: `n17/${id}`, method: "PUT", data: newData }).then(() =>
+  request({ url: `asaxiy/${id}`, method: "PUT", data: newData }).then(() =>
     alert("Mahsulot ozgartrildi")
   );
 }
